@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer {
     /**
      * Der Name des Kunden
@@ -7,34 +10,56 @@ public class Customer {
     /**
      * Die Bücher des Kunden
      */
-    private Book[] _books;
+    private List<Book> _books = new ArrayList<>();
 
     /**
      * Das Geld des Kunden
      */
-    private Float _money;
+    private Double _money;
 
-    public Customer(String name, Float money) {
+    public Customer(String name, Double money) {
         _name = name;
         _money = money;
     }
 
-    public Book[] get_books() {
+    /**
+     * Getter für Bücher
+     */
+    public List<Book> get_books() {
         return _books;
     }
 
-    public void set_books(Book[] books) {
-        _books = books;
+    /**
+     * Setter für Bücher
+     * @param book: Das neue Buch des Kunden.
+     */
+    public void addBook(Book book) {
+        _books.add(book);
     }
 
-    public Float get_money() {
+    /**
+     * Getter für Geld
+     */
+    public Double get_money() {
         return _money;
     }
 
-    public void set_money(Float money) {
-        _money = money;
+    /**
+     * Verringern des Geldes
+     */
+    public boolean reduceMoney(Double money) {
+        System.out.println(money);
+        System.out.println(_money);
+        if(money <= _money) {
+            _money -= money;
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * Getter für Name
+     */
     public String get_name() {
         return _name;
     }
