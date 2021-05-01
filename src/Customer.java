@@ -25,7 +25,7 @@ public class Customer {
     /**
      * Getter für Bücher
      */
-    public List<Book> get_books() {
+    public List<Book> getBooks() {
         return _books;
     }
 
@@ -40,7 +40,7 @@ public class Customer {
     /**
      * Getter für Geld
      */
-    public Double get_money() {
+    public Double getMoney() {
         return _money;
     }
 
@@ -60,7 +60,7 @@ public class Customer {
     /**
      * Getter für Name
      */
-    public String get_name() {
+    public String getName() {
         return _name;
     }
 }

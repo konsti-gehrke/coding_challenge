@@ -27,6 +27,8 @@ public class Main {
 
         List<Book> bookList1 = new ArrayList<>();
         bookList1.add(book1);
+        bookList1.add(book1);
+        bookList1.add(book1);
         bookList1.add(book3);
         bookList1.add(book6);
         bookList1.add(book6);
@@ -36,8 +38,11 @@ public class Main {
         List<Book> bookList2 = new ArrayList<>();
         bookList2.add(book2);
         bookList2.add(book2);
+        bookList2.add(book2);
         bookList2.add(book3);
+        bookList2.add(book4);
         bookList2.add(book6);
+        bookList2.add(book7);
         bookList2.add(book7);
         bookList2.add(book8);
         bookList2.add(book9);
@@ -48,16 +53,49 @@ public class Main {
         bookList3.add(book3);
         bookList3.add(book4);
         bookList3.add(book4);
+        bookList3.add(book4);
         bookList3.add(book5);
         bookList3.add(book9);
+        bookList3.add(book9);
+
+        List<Book> bookList4 = new ArrayList<>();
+        bookList4.add(book1);
+        bookList4.add(book3);
+
+        List<Book> bookList5 = new ArrayList<>();
+        bookList5.add(book1);
+        bookList5.add(book3);
+        bookList5.add(book3);
+
+
 
         Shop buecherDe = new Shop("buecher.de", 0.0, bookList1);
-        Shop thalia = new Shop("thalia.de", 0.0, bookList2);
         Shop beckShop = new Shop("beck-shop.de", 0.0, bookList3);
+        Shop thalia = new Shop("thalia.de", 0.0, bookList2);
+        Shop thaliaCopy = new Shop("thaliacopy.de", 0.0, bookList5);
 
-        for(Book buch : allBooks) {
-            System.out.println(buch.get_title());
-        }
+//        System.out.println(thalia.compareBooks(thaliaCopy));
+
+//        Book falseBook = new Book("Bester Döner Hamburgs", 12.00, 29, Genre.BIOGRAPHY, "978-3442267747");
+//        buecherDe.addBook(falseBook);
+
+//        System.out.println("Duplikate");
+//        for(Book buch : thalia.getBuecher()) {
+//             System.out.println(buch.getTitle());
+//        }
+//        System.out.println("\nUnikate");
+//        for(Book buch : thalia.getBuecherUnikate()) {
+//             System.out.println(buch.getTitle());
+//        }
+
+
+//        System.out.println("Normale Anzahl");
+//        System.out.println(thalia.getBuecher().size());
+//
+//        System.out.println("Anzahl +1");
+//        thalia.addBook(book1);
+//        System.out.println(thalia.getBuecher().size());
+
 
         Customer franz = new Customer("Frank Funk", 38.92);
         Customer gido = new Customer("Gido Geizig", 200.35);
@@ -65,15 +103,14 @@ public class Main {
         Customer detlef = new Customer("Detlef D", 25.20);
         List<Book> filteredBooks = thalia.getFilteredBuecher(Genre.ADVENTURE);
 
-        System.out.println(thalia.getUmsatz());
-        System.out.println(franz.get_books());
-        System.out.println(franz.get_money());
-        if(thalia.sellBook(book7, franz)) {
-            System.out.println(thalia.getUmsatz());
-            System.out.println(franz.get_books());
-            System.out.println(franz.get_money());
+        System.out.printf("Umsatz von %s %s. Bücher: %s \n", thalia.getName(), thalia.getUmsatz(), thalia.getBuecher());
+        System.out.printf("Bücher von %s: %s. Geld: %s \n", franz.getName(), franz.getBooks(), franz.getMoney());
+        if(thalia.sellBook(book2, franz)) {
+            System.out.println("Der Kauf war erfolgreich!");
         } else {
             System.out.println("Der Kauf war nicht erfolgreich!");
         }
+        System.out.printf("Umsatz von %s %s. Bücher: %s \n", thalia.getName(), thalia.getUmsatz(), thalia.getBuecher());
+        System.out.printf("Bücher von %s: %s. Geld: %s \n", franz.getName(), franz.getBooks(), franz.getMoney());
     }
 }

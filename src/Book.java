@@ -1,7 +1,4 @@
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class Book {
+public class Book implements Comparable<Book> {
     /**
      * Der Titel des Buchs
      */
@@ -25,10 +22,7 @@ public class Book {
     private String _isbn;
 
     public Book(String title, Double price, Integer pageCount, Genre genre, String isbn) {
-        String regex = "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(isbn);
-        if(!matcher.matches()) {
+        if(!validateIsbn(isbn)) {
             throw new IllegalArgumentException("Falsche ISBN-13!");
         }
         _isbn = isbn;
@@ -49,22 +43,29 @@ public class Book {
     /**
      * Getter für Titel
      */
-    public String get_title() {
+    public String getTitle() {
         return _title;
     }
 
     /**
      * Getter für Preis
      */
-    public Double get_price() {
+    public Double getPrice() {
         return _price;
     }
 
     /**
      * Getter für Seitenanzahl
      */
-    public Integer get_pageCount() {
+    public Integer getPageCount() {
         return _pageCount;
+    }
+
+     /**
+     * Getter für Seitenanzahl
+     */
+    public String getIsbn() {
+        return _isbn;
     }
 
     /**
@@ -74,4 +75,69 @@ public class Book {
         return _genre;
     }
 
+    public boolean validateIsbn( String isbn ) {
+        if ( isbn == null ) {
+            return false;
+        }
+        isbn = isbn.replaceAll( "-", "" );
+        if ( isbn.length() != 13 ) {
+            return false;
+        }
+
+        try {
+            int sum = 0;
+            for ( int i = 0; i < 12; i++ ) {
+                int digit = Integer.parseInt( isbn.substring( i, i + 1 ) );
+                sum += (i % 2 == 0) ? digit * 1 : digit * 3;
+            }
+            //checksum muss unter 10 liegen
+            int checksum = 10 - (sum % 10);
+            if ( checksum == 10 ) {
+                checksum = 0;
+            }
+            return checksum == Integer.parseInt( isbn.substring( 12 ) );
+        }
+        catch ( NumberFormatException nfe ) {
+            return false;
+        }
+    }
+
+    /**
+     * Wird gebraucht um Collection.sort auf einer Arraylist von Büchern anzuwenden
+     *
+     * */
+    @Override
+    public int compareTo(Book book) {
+        return this.getIsbn().compareTo(book.getIsbn());
+    }
+
+    @Override
+    public String toString() {
+       return this.getTitle();
+    }
+
+    /**
+     * Methode um zwei Objekte zu vergleichen. Zur Überprüfung von zwei Bücherlisten gedacht.
+     * */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        final Book other = (Book) obj;
+        if ((this.getIsbn() == null) ? (other.getIsbn() != null) : !this.getIsbn().equals(other.getIsbn())) {
+            return false;
+        }
+
+        if(!this.getIsbn().equals(other.getIsbn())){
+            return false;
+        }
+
+        return true;
+    }
 }
