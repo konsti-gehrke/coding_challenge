@@ -9,6 +9,10 @@ Die Dateien können über Git geladen werden:
 
         git clone https://github.com/konsti-gehrke/coding_challenge.git
 
+* JUnit5 wurde zum Testen verwendet.
+
+        https://junit.org/junit5/docs/current/user-guide/
+
 # Testing
 Es wurde beim Testen darauf geachtet möglichst viele Fälle abzudecken. Dabei wurde fast immer versucht mit Gut- und Schlechtfällen zu arbeiten.
 
@@ -36,10 +40,3 @@ Es wurde folgendes getestet:
 * Hinzufügen von Büchern
 * Getter-Methoden
 * Verringern von Geld
-
-
-### Technologie
-* JUnit5 wurde zum Testen verwendet.
-
-        https://junit.org/junit5/docs/current/user-guide/
-
