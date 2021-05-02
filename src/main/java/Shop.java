@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -13,17 +14,17 @@ public class Shop {
     /**
      * Der Umsatz des Shops
      * */
-    private Double _umsatz;
+    private BigDecimal _umsatz;
 
     /**
      * Die Bücher des Shops
      */
-    private List<Book> _buecher = new ArrayList<>();
+    private final List<Book> _buecher;
 
     /**
      * Konstruktor
      */
-    public Shop(String name, Double umsatz, List<Book> buecher){
+    public Shop(String name, BigDecimal umsatz, List<Book> buecher){
         _strName=name;
         _umsatz=umsatz;
         _buecher=buecher;
@@ -39,7 +40,7 @@ public class Shop {
     /**
      * Getter für Umsatz
      */
-    public Double getUmsatz() {
+    public BigDecimal getUmsatz() {
         return _umsatz;
     }
 
@@ -48,11 +49,9 @@ public class Shop {
      */
     public boolean sellBook(Book verkaufendesBuch, Customer customer) {
         if(_buecher.contains(verkaufendesBuch)) {
-            System.out.println("Buch in der Liste");
             if(customer.reduceMoney(verkaufendesBuch.getPrice())) {
-                System.out.println("Genug geld");
                 _buecher.remove(verkaufendesBuch);
-                _umsatz += verkaufendesBuch.getPrice();
+                _umsatz = _umsatz.add(verkaufendesBuch.getPrice());
                 customer.addBook(verkaufendesBuch);
                 return true;
             }
@@ -113,8 +112,7 @@ public class Shop {
      * Liefert die Bücher ohne Duplikate zurück
      * */
     public List<Book> getBuecherUnikate() {
-        List<Book> uniqueBooks = cloneBooks(_buecher).stream().filter(distinctByKey(Book::getTitle)).collect(Collectors.toList());
-        return uniqueBooks;
+        return cloneBooks(_buecher).stream().filter(distinctByKey(Book::getTitle)).collect(Collectors.toList());
     }
 
 

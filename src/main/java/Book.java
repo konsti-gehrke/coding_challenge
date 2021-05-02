@@ -1,27 +1,29 @@
+import java.math.BigDecimal;
+
 public class Book implements Comparable<Book> {
     /**
      * Der Titel des Buchs
      */
-    private String _title;
+    private final String _title;
 
     /**
      * Der Preis des Buchs
      */
-    private Double _price;
+    private final BigDecimal _price;
 
     /**
      * Die Seitenanzahl des Buches
      */
-    private Integer _pageCount;
+    private final Integer _pageCount;
 
     /**
      * Das Genre des Buchs
      */
-    private Genre _genre;
+    private final Genre _genre;
 
-    private String _isbn;
+    private final String _isbn;
 
-    public Book(String title, Double price, Integer pageCount, Genre genre, String isbn) {
+    public Book(String title, BigDecimal price, Integer pageCount, Genre genre, String isbn) {
         if(!validateIsbn(isbn)) {
             throw new IllegalArgumentException("Falsche ISBN-13!");
         }
@@ -50,7 +52,7 @@ public class Book implements Comparable<Book> {
     /**
      * Getter für Preis
      */
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return _price;
     }
 
@@ -88,7 +90,7 @@ public class Book implements Comparable<Book> {
             int sum = 0;
             for ( int i = 0; i < 12; i++ ) {
                 int digit = Integer.parseInt( isbn.substring( i, i + 1 ) );
-                sum += (i % 2 == 0) ? digit * 1 : digit * 3;
+                sum += (i % 2 == 0) ? digit : digit * 3;
             }
             //checksum muss unter 10 liegen
             int checksum = 10 - (sum % 10);
@@ -137,7 +139,6 @@ public class Book implements Comparable<Book> {
         if(!this.getIsbn().equals(other.getIsbn())){
             return false;
         }
-
         return true;
     }
 }

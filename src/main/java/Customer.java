@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,19 +6,22 @@ public class Customer {
     /**
      * Der Name des Kunden
      */
-    private String _name;
+    private final String _name;
 
     /**
      * Die Bücher des Kunden
      */
-    private List<Book> _books = new ArrayList<>();
+    private final List<Book> _books = new ArrayList<>();
 
     /**
      * Das Geld des Kunden
      */
-    private Double _money;
+    private BigDecimal _money;
 
-    public Customer(String name, Double money) {
+    public Customer(String name, BigDecimal money) {
+        if(money.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Ungültigen Geldwert angegeben!");
+        }
         _name = name;
         _money = money;
     }
@@ -40,18 +44,16 @@ public class Customer {
     /**
      * Getter für Geld
      */
-    public Double getMoney() {
+    public BigDecimal getMoney() {
         return _money;
     }
 
     /**
      * Verringern des Geldes
      */
-    public boolean reduceMoney(Double money) {
-        System.out.println(money);
-        System.out.println(_money);
-        if(money <= _money) {
-            _money -= money;
+    public boolean reduceMoney(BigDecimal money) {
+        if(money.compareTo(_money) <= 0) {
+            _money = _money.subtract(money);
             return true;
         }
         return false;
