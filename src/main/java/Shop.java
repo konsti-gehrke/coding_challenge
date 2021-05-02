@@ -56,6 +56,7 @@ public class Shop {
                 return true;
             }
             System.out.println("Zu wenig geld vorhanden");
+            return false;
         }
         System.out.println("Buch nicht in der Liste enthalten");
         return false;

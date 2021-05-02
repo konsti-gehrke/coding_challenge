@@ -18,7 +18,6 @@ class ShopTest {
     Book book8 = new Book("Ungeschminkt", new BigDecimal("12.00"), 288, Genre.BIOGRAPHY, "978-3-499-00415-5");
     Book book9 = new Book("Warrior Cats - Special Adventure. Tigerherz' Schatten", new BigDecimal("11.00"), 471, Genre.ADVENTURE, "978-3-407-81267-4");
     Book book10 =  new Book("Das Gold der Krähen", new BigDecimal("16.99"), 592, Genre.FANTASY, "978-3-426-65449-1");
-    List<Book> allBooks = new ArrayList<>();
     List<Book> uniqueList1 = new ArrayList<>();
     List<Book> uniqueList2 = new ArrayList<>();
     List<Book> uniqueList3 = new ArrayList<>();
@@ -31,22 +30,10 @@ class ShopTest {
     Shop shopSameBooksAsThalia;
     Customer franz = new Customer("Frank Funk", new BigDecimal("38.92"));
     Customer gido = new Customer("Gido Geizig", new BigDecimal("200.35"));
-    Customer tolkin = new Customer("Tolkin Trotz", new BigDecimal("85.01"));
-    Customer detlef = new Customer("Detlef D", new BigDecimal("25.20"));
+    Customer detlef = new Customer("Detlef D", new BigDecimal("15.20"));
 
     @BeforeEach
     void setUp() {
-        allBooks.add(book1);
-        allBooks.add(book2);
-        allBooks.add(book3);
-        allBooks.add(book4);
-        allBooks.add(book5);
-        allBooks.add(book6);
-        allBooks.add(book7);
-        allBooks.add(book8);
-        allBooks.add(book9);
-        allBooks.add(book10);
-
         uniqueList1.add(book1);
         uniqueList1.add(book1);
         uniqueList1.add(book1);
@@ -160,18 +147,39 @@ class ShopTest {
     }
 
     @Test
+    void sellBookFail() {
+        assertAll(
+                () -> assertEquals(0, buecherDe.getUmsatz().compareTo(BigDecimal.ZERO)),
+                () -> assertEquals(buecherDe.getBuecher().size(), 8),
+                () -> assertEquals(0, detlef.getMoney().compareTo(new BigDecimal("15.20"))),
+                () -> assertEquals(detlef.getBooks().size(), 0
+        ));
+        assertFalse(buecherDe.sellBook(book1, detlef));
+        assertAll(
+                () -> assertEquals(0, buecherDe.getUmsatz().compareTo(BigDecimal.ZERO)),
+                () -> assertEquals(buecherDe.getBuecher().size(), 8),
+                () -> assertEquals(0, detlef.getMoney().compareTo(new BigDecimal("15.20"))),
+                () -> assertEquals(detlef.getBooks().size(), 0)
+        );
+        //Ein Buch das es nicht gibt wird mit false zurückgewiesen.
+        assertFalse(buecherDe.sellBook(book2, gido));
+    }
+
+    @Test
     void sellBook() {
-        assertEquals(0, buecherDe.getUmsatz().compareTo(BigDecimal.ZERO));
-        assertEquals(buecherDe.getBuecher().size(), 8);
-        assertEquals(0, franz.getMoney().compareTo(new BigDecimal("38.92")));
-        assertEquals(franz.getBooks().size(), 0);
-
+        assertAll(
+                () -> assertEquals(0, buecherDe.getUmsatz().compareTo(BigDecimal.ZERO)),
+                () -> assertEquals(buecherDe.getBuecher().size(), 8),
+                () -> assertEquals(0, franz.getMoney().compareTo(new BigDecimal("38.92"))),
+                () -> assertEquals(franz.getBooks().size(), 0)
+        );
         assertTrue(buecherDe.sellBook(book1, franz));
-
-        assertEquals(0, buecherDe.getUmsatz().compareTo(new BigDecimal("29.90")));
-        assertEquals(buecherDe.getBuecher().size(), 7);
-        assertEquals(0, franz.getMoney().compareTo(new BigDecimal("9.02")));
-        assertEquals(franz.getBooks().size(), 1);
+        assertAll(
+                () -> assertEquals(0, buecherDe.getUmsatz().compareTo(new BigDecimal("29.90"))),
+                () -> assertEquals(buecherDe.getBuecher().size(), 7),
+                () -> assertEquals(0, franz.getMoney().compareTo(new BigDecimal("9.02"))),
+                () -> assertEquals(franz.getBooks().size(), 1)
+        );
     }
 
     @Test

@@ -6,20 +6,38 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 class BookTest {
+    /**
+     * Testen der fünf vorgegebenen ISBN-13 Nummern.
+     * */
+
     @Test
     void creation() {
-        Book book = new Book("Die Säulen der Erde", new BigDecimal("29.90"), 1376, Genre.FANTASY, "978-0-596-52068-7");
+        Book book = new Book("Die Säulen der Erde", new BigDecimal("29.90"), 1376, Genre.FANTASY, "978-3608963762");
+        Book book1 = new Book("Die Säulen der Erde", new BigDecimal("29.90"), 1376, Genre.FANTASY, "978-3841335180");
         assertEquals(Book.class, book.getClass());
+        assertEquals(Book.class, book1.getClass());
     }
 
     @Test
     void failCreation() {
         IllegalArgumentException thrown = assertThrows(
                 IllegalArgumentException.class,
-                () -> new Book("Asterix Mundart Kölsch IV", new BigDecimal("14.00"), 48, Genre.COMIC, "349913599X"),
+                () -> new Book("Asterix Mundart Kölsch IV", new BigDecimal("14.00"), 48, Genre.COMIC, "978-3442267747"),
+                "Falsche ISBN-13 angegeben."
+        );
+        IllegalArgumentException thrown1 = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Book("Die Säulen der Erde", new BigDecimal("29.90"), 1376, Genre.FANTASY, "978-758245159"),
+                "Falsche ISBN-13 angegeben."
+        );
+        IllegalArgumentException thrown2 = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Book("Die Säulen der Erde", new BigDecimal("29.90"), 1376, Genre.FANTASY, "978-3442267819"),
                 "Falsche ISBN-13 angegeben."
         );
         assertTrue(thrown.getMessage().contains("Falsche ISBN-13!"));
+        assertTrue(thrown1.getMessage().contains("Falsche ISBN-13!"));
+        assertTrue(thrown2.getMessage().contains("Falsche ISBN-13!"));
     }
 
     @Test
