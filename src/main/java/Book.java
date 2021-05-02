@@ -21,8 +21,19 @@ public class Book implements Comparable<Book> {
      */
     private final Genre _genre;
 
+    /**
+     * ISBN-Nummer eines Buches zur Identifikation
+     */
     private final String _isbn;
 
+    /**
+     *
+     * @param title
+     * @param price
+     * @param pageCount
+     * @param genre
+     * @param isbn
+     */
     public Book(String title, BigDecimal price, Integer pageCount, Genre genre, String isbn) {
         if(!validateIsbn(isbn)) {
             throw new IllegalArgumentException("Falsche ISBN-13!");
@@ -77,6 +88,11 @@ public class Book implements Comparable<Book> {
         return _genre;
     }
 
+    /**
+     * Methode zur Feststellung ob eine ISBN valide ist.
+     * @param isbn Zu überprüfende Nummer.
+     * @return true wenn die übergebene ISBN valide ist.
+     */
     public boolean validateIsbn( String isbn ) {
         if ( isbn == null ) {
             return false;
@@ -106,7 +122,6 @@ public class Book implements Comparable<Book> {
 
     /**
      * Wird gebraucht um Collection.sort auf einer Arraylist von Büchern anzuwenden
-     *
      * */
     @Override
     public int compareTo(Book book) {

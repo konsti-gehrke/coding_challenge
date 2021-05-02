@@ -116,12 +116,15 @@ public class Shop {
         return cloneBooks(_buecher).stream().filter(distinctByKey(Book::getTitle)).collect(Collectors.toList());
     }
 
-
-    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
         return t -> seen.add(keyExtractor.apply(t));
     }
 
+    /**
+     * Methode zur Ausgabe der Buchtitel in der Liste.
+     * @return Ein String mit den Buchtiteln.
+     */
     @Override
     public String toString() {
         StringBuilder returnStr = new StringBuilder();
